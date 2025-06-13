@@ -2,9 +2,33 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
+import 'dotenv/config';
+import * as process from 'node:process';
+
+console.log(process.env);
+
+interface DatabaseConfig {
+  host: string;
+  port: number;
+  user: string;
+  password: string;
+  db: string;
+}
+
+const dbConfig: DatabaseConfig = {
+  host: process.env.MONGO_HOST || '127.0.0.1',
+  port: parseInt(process.env.MONGO_PORT || '27027', 10),
+  user: process.env.MONGO_USER || 'user',
+  password: process.env.MONGO_PASSWORD || 'password',
+  db: process.env.MONGO_DB || 'default_db',
+};
+
+const mongoUrl = (): string => {
+  return `mongodb://${dbConfig.user}:${dbConfig.password}@${dbConfig.host}:${dbConfig.port}/${dbConfig.db}`;
+};
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017'),],
+  imports: [MongooseModule.forRoot(mongoUrl())],
   controllers: [AppController],
   providers: [AppService],
 })
