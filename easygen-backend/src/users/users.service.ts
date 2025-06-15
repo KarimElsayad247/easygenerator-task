@@ -4,7 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
-import { hashed } from '../utils/password-utils';
+import { hashed } from 'src/utils/password-utils';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +16,7 @@ export class UsersService {
       email: createUserDto.email,
       password: await hashed(createUserDto.password),
     };
-    const createdUser = new this.userModel(userCreationParams);
+    const createdUser = await new this.userModel(userCreationParams).save();
 
     if (createdUser === null) {
       throw new HttpException(
