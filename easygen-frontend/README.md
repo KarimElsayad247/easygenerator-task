@@ -19,7 +19,9 @@ when declaring form fields.
 
 - Fix some janky Form validation going on in Login Form, just look at this weird stuff
 
-![Janky validation](./docs/assets/janky_validation.mp4)
+https://github.com/user-attachments/assets/b46867be-c31e-4883-9e29-83b5ed898a86
+
+.mp4)
 
 ## Project setup
 
