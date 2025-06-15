@@ -1,4 +1,13 @@
 services:
+  backend:
+    build:
+      context: ./easygen-backend
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - "3000:3000"
+
   mongo:
     image: mongo
     restart: always
