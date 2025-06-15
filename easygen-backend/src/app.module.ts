@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 import 'dotenv/config';
 import * as process from 'node:process';
 
@@ -27,7 +28,7 @@ const mongoUrl = (): string => {
 };
 
 @Module({
-  imports: [MongooseModule.forRoot(mongoUrl()), UsersModule],
+  imports: [MongooseModule.forRoot(mongoUrl()), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
