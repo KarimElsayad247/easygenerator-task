@@ -17,6 +17,10 @@ For UI, I use [shadcn/ui](https://ui.shadcn.com/) which offers beautiful, ready-
 guide on implementing Custom Form Hooks, allowing for less boilerplate and duplication
 when declaring form fields.
 
+- Fix some janky Form validation going on in Login Form, just look at this weird stuff
+
+![Janky validation](./docs/assets/janky_validation.mkv)
+
 ## Project setup
 
 ```bash
