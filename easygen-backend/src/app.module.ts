@@ -6,6 +6,8 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import 'dotenv/config';
 import * as process from 'node:process';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './auth/constants';
 
 interface DatabaseConfig {
   host: string;
@@ -28,7 +30,16 @@ const mongoUrl = (): string => {
 };
 
 @Module({
-  imports: [MongooseModule.forRoot(mongoUrl()), UsersModule, AuthModule],
+  imports: [
+    MongooseModule.forRoot(mongoUrl()),
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60m' },
+    }),
+    UsersModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
