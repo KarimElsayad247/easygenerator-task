@@ -1,5 +1,16 @@
 # Easygenerator Technical Task Backend
 
+
+## Notes
+
+### What would I add if I had time?
+
+- Database Authentication: authentication in mongodb is fairly complex, as attested
+by the maintainers of the official mongodb docker container. [See Authentication section
+here](https://hub.docker.com/_/mongo).
+
+
+
 ## Project setup
 
 ```bash

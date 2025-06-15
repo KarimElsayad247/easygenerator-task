@@ -11,6 +11,12 @@
 
 For UI, I use [shadcn/ui](https://ui.shadcn.com/) which offers beautiful, ready-made components.
 
+### What would I add if I had more time?
+
+- Better reusable Form components: I would follow [Tanstack Form Composition](https://tanstack.com/form/latest/docs/framework/react/guides/form-composition)
+guide on implementing Custom Form Hooks, allowing for less boilerplate and duplication
+when declaring form fields.
+
 ## Project setup
 
 ```bash
