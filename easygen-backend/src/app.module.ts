@@ -6,8 +6,6 @@ import { UsersModule } from './users/users.module';
 import 'dotenv/config';
 import * as process from 'node:process';
 
-console.log(process.env);
-
 interface DatabaseConfig {
   host: string;
   port: number;

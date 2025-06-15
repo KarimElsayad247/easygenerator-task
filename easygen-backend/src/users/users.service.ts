@@ -4,13 +4,19 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
+import { hashed } from '../utils/password-utils';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const createdUser = new this.userModel(createUserDto);
+    const userCreationParams = {
+      name: createUserDto.name,
+      email: createUserDto.email,
+      password: await hashed(createUserDto.password),
+    };
+    const createdUser = new this.userModel(userCreationParams);
     return createdUser.save();
   }
 
