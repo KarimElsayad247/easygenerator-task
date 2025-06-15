@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -17,21 +17,42 @@ export class UsersService {
       password: await hashed(createUserDto.password),
     };
     const createdUser = new this.userModel(userCreationParams);
-    return createdUser.save();
+
+    if (createdUser === null) {
+      throw new HttpException(
+        'Error creating user',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    return await this.findOne(createdUser._id.toString());
   }
 
   async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
+    return this.userModel.find({}, '-password').exec();
   }
 
-  async findOne(id: string): Promise<User | null> {
-    return this.userModel.findOne({ _id: id }).exec();
+  async findOne(id: string): Promise<User> {
+    const user = await this.userModel.findById(id, '-password').exec();
+
+    if (user === null) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User | null> {
-    return this.userModel
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    const user = await this.userModel
       .findByIdAndUpdate({ _id: id }, updateUserDto, { new: true })
+      .select('-password')
       .exec();
+
+    if (user === null) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    return user;
   }
 
   async remove(id: string): Promise<User | null> {
