@@ -1,0 +1,28 @@
+type: http_request
+model: http_request
+id: rq_TzgDcoeGh8
+createdAt: 2025-06-15T07:42:52.762292717
+updatedAt: 2025-06-15T15:13:55.344751370
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_AZum38kXUZ
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "name": "user1",
+      "email": "user1@example.com",
+      "password": "password"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: bfWtQWS2Xs
+method: POST
+name: create
+sortPriority: 0.0
+url: ${[ API_URL ]}/users
+urlParameters: []

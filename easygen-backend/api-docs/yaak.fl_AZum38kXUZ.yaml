@@ -1,0 +1,21 @@
+type: folder
+model: folder
+id: fl_AZum38kXUZ
+createdAt: 2025-06-15T07:43:07.469392107
+updatedAt: 2025-06-15T15:34:02.702665614
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_zHqQnwVx4b
+authentication: {}
+authenticationType: null
+description: ''
+headers:
+- enabled: true
+  name: Authorization
+  value: Bearer ${[ access_token ]}
+  id: cvpZyQPfYV
+- enabled: true
+  name: ''
+  value: ''
+  id: qrKrmNcm8Z
+name: Users
+sortPriority: -1749973300000.0

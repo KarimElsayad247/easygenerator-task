@@ -1,0 +1,27 @@
+type: http_request
+model: http_request
+id: rq_4YG3dPaffM
+createdAt: 2025-06-15T11:04:41.419111065
+updatedAt: 2025-06-15T11:05:55.895113615
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_Axu8mR4tDg
+authentication: {}
+authenticationType: null
+body:
+  text: |-
+    {
+      "email": "user1@example.com",
+      "password": "password"
+    }
+bodyType: application/json
+description: ''
+headers:
+- enabled: true
+  name: Content-Type
+  value: application/json
+  id: pITbJfWMiW
+method: POST
+name: Sign In
+sortPriority: -0.0001
+url: ${[ API_URL ]}/auth/sign-in
+urlParameters: []

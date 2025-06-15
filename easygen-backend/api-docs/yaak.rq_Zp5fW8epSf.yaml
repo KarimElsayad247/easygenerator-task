@@ -1,0 +1,22 @@
+type: http_request
+model: http_request
+id: rq_Zp5fW8epSf
+createdAt: 2025-06-15T15:13:46.336660867
+updatedAt: 2025-06-15T15:34:18.935261033
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_AZum38kXUZ
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers:
+- enabled: true
+  name: ''
+  value: ''
+  id: YDhwSDqhEu
+method: GET
+name: all
+sortPriority: 1000.0
+url: ${[ API_URL ]}/users
+urlParameters: []

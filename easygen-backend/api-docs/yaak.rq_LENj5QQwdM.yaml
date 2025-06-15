@@ -1,0 +1,26 @@
+type: http_request
+model: http_request
+id: rq_LENj5QQwdM
+createdAt: 2025-06-15T08:10:10.792760518
+updatedAt: 2025-06-15T15:33:40.223427105
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_AZum38kXUZ
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: find
+sortPriority: 2000.0
+url: ${[ API_URL ]}/users/:id
+urlParameters:
+- enabled: true
+  name: :id
+  value: 684ee321a4006871ea277b8f
+  id: MJI42xNyzz
+- enabled: true
+  name: ''
+  value: ''
+  id: k7WXQqjHI4

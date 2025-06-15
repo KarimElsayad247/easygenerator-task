@@ -1,0 +1,18 @@
+type: http_request
+model: http_request
+id: rq_ucAJfiLsf8
+createdAt: 2025-06-13T12:55:37.357463838
+updatedAt: 2025-06-15T11:04:32.172758979
+workspaceId: wk_6JUUTgR6hA
+folderId: fl_zHqQnwVx4b
+authentication: {}
+authenticationType: null
+body: {}
+bodyType: null
+description: ''
+headers: []
+method: GET
+name: health check
+sortPriority: 0.0
+url: ${[ API_URL ]}/health
+urlParameters: []

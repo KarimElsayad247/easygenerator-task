@@ -1,0 +1,14 @@
+type: workspace
+model: workspace
+id: wk_6JUUTgR6hA
+createdAt: 2025-06-13T12:52:35.855204024
+updatedAt: 2025-06-15T15:39:03.183929033
+authentication: {}
+authenticationType: null
+description: ''
+headers: []
+name: Easygen Task
+encryptionKeyChallenge: null
+settingValidateCertificates: true
+settingFollowRedirects: true
+settingRequestTimeout: 0
