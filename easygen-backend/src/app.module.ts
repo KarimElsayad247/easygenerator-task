@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestMiddleware,
+  NestModule,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -8,6 +13,7 @@ import 'dotenv/config';
 import * as process from 'node:process';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth/constants';
+import { AppLoggerMiddleware } from './middleware/app-logger.middleware';
 
 interface DatabaseConfig {
   host: string;
@@ -43,4 +49,8 @@ const mongoUrl = (): string => {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer): any {
+    consumer.apply(AppLoggerMiddleware).forRoutes('*');
+  }
+}
