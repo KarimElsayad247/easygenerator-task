@@ -1,4 +1,4 @@
-FROM node:22 as builder
+FROM node:22-slim as builder
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -11,11 +11,11 @@ WORKDIR /usr/src/app
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-# Copy the rest of the application files
-COPY . .
-
 # Install the application dependencies
 RUN pnpm install
+
+# Copy the rest of the application files
+COPY . .
 
 # Override .env file
 COPY .env.docker ./.env
