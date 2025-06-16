@@ -1,10 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { hashed } from 'src/utils/password-utils';
+import { ErrorsMap } from '../constants/mongoose';
+
+interface MongoError {
+  code: number;
+}
 
 @Injectable()
 export class UsersService {
@@ -16,7 +26,16 @@ export class UsersService {
       email: createUserDto.email,
       password: await hashed(createUserDto.password),
     };
-    const createdUser = await new this.userModel(userCreationParams).save();
+    let createdUser;
+    try {
+      createdUser = await new this.userModel(userCreationParams).save();
+    } catch (error) {
+      if ((error as MongoError)?.code === ErrorsMap.DuplicateKeyError) {
+        throw new BadRequestException('A user with this email already exists.');
+      } else {
+        throw error;
+      }
+    }
 
     if (createdUser === null) {
       throw new HttpException(

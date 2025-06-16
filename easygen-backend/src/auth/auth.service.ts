@@ -29,7 +29,7 @@ export class AuthService {
 
     const passwordCorrect = await match(signInDto.password, user.password);
     if (!passwordCorrect) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Incorrect password');
     }
 
     const payload = { id: user._id, email: user.email };
