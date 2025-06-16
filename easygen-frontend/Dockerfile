@@ -24,7 +24,7 @@ RUN pnpm run build
 
 FROM nginx:alpine
 
-COPY ./dist /usr/share/nginx/html
+COPY --from=build ./dist /usr/share/nginx/html
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
