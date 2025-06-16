@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ACCESS_TOKEN_KEY } from '@/constants/AuthConstants';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 axiosInstance.interceptors.request.use(async (request) => {

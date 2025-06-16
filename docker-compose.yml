@@ -7,7 +7,14 @@ services:
       - mongo
     ports:
       - "3000:3000"
-
+  frontend:
+    build:
+      context: ./easygen-frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
   mongo:
     image: mongo
     restart: always
@@ -26,4 +33,4 @@ services:
       ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_BASICAUTH: false
+      ME_CONFIG_BASICAUTH: true
