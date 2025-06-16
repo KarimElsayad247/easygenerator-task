@@ -1,5 +1,14 @@
 # Easygenerator Technical Task
 
+## Live Deployment
+
+http://static.96.247.245.188.clients.your-server.de:8080/
+
+### Notes about deployment
+
+The entire stack is hosted on a Hetzner VM, built using the dockerfiles I wrote and orchestrated
+with docker-compsoe.
+
 ## Video Demo
 
 https://github.com/user-attachments/assets/d1257f9f-7769-4dbd-8268-f91988f54d07
