@@ -7,7 +7,7 @@ interface UserCreationDetails {
   password: string;
 }
 
-export const createUser = async (details: UserCreationDetails) => {
+export const createUser = async (details: UserCreationDetails): Promise<User> => {
   const response = await axiosInstance.post('/users', {
     name: details.name,
     email: details.email,

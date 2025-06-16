@@ -1,33 +1,56 @@
 import { cn, fieldShouldReportError } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/Card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import * as React from 'react';
-import { Link } from '@tanstack/react-router';
+import { useState } from 'react';
+import { Link, useNavigate } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod/v4';
 import { InputError } from '@/components/ui/InputError.tsx';
+import { createUser } from '@/apis/users.api.ts';
+import { FormError } from '@/components/FormError.tsx';
 
-const RegistrationFormSchema = z.object({
-  username: z.string().min(3, { error: 'Name must have a minimum of 3 characters' }),
-  email: z.email({ error: 'Not a valid email address' }),
-  // Password Schema from https://github.com/colinhacks/zod/discussions/3412#discussioncomment-9916377
-  password: z.string()
-    .min(8)
-    .refine(password => /[A-Za-z]/.test(password), { error: 'Password must have at least 1 letter' })
-    .refine(password => /[0-9]/.test(password), { error: 'Password must have at least 1 digit' })
-    .refine(password => /[^A-Za-z0-9]/.test(password), { error: 'Password must have at least 1 special character' }),
-  passwordConfirmation: z.string(),
-}).refine((data) => data.password === data.passwordConfirmation, {
-  error: 'Password confirmation does not match password',
-  path: ['passwordConfirmation'],
-});
+const RegistrationFormSchema = z
+  .object({
+    username: z
+      .string()
+      .min(3, { error: 'Name must have a minimum of 3 characters' }),
+    email: z.email({ error: 'Not a valid email address' }),
+    // Password Schema from https://github.com/colinhacks/zod/discussions/3412#discussioncomment-9916377
+    password: z
+      .string()
+      .min(8)
+      .refine((password) => /[A-Za-z]/.test(password), {
+        error: 'Password must have at least 1 letter',
+      })
+      .refine((password) => /[0-9]/.test(password), {
+        error: 'Password must have at least 1 digit',
+      })
+      .refine((password) => /[^A-Za-z0-9]/.test(password), {
+        error: 'Password must have at least 1 special character',
+      }),
+    passwordConfirmation: z.string(),
+  })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    error: 'Password confirmation does not match password',
+    path: ['passwordConfirmation'],
+  });
 
 export function SignupForm({
-                             className,
-                             ...props
-                           }: React.ComponentProps<'div'>) {
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
+  const [signingUp, setSigningUp] = useState(false);
+  const [error, setError] = useState<string>();
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -40,7 +63,18 @@ export function SignupForm({
       onChange: RegistrationFormSchema,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
+      setSigningUp(true);
+      createUser({
+        name: value.username,
+        email: value.email,
+        password: value.password,
+      })
+        .then((_data) => navigate({ to: '/sign-in', search: { newSignUp: 1 } }))
+        .catch((error) => {
+          setSigningUp(false);
+          console.log(error);
+          setError(error.response?.data.message);
+        });
     },
   });
 
@@ -54,7 +88,13 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          {error && <FormError message={error} />}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              form.handleSubmit();
+            }}
+          >
             <div className="flex flex-col gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="username">Name</Label>
@@ -68,17 +108,19 @@ export function SignupForm({
                         value={state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        className={fieldShouldReportError(state) ? 'invalid' : ''}
+                        className={
+                          fieldShouldReportError(state) ? 'invalid' : ''
+                        }
                         placeholder="John"
                         required
                       />
-                      {state.meta.errors[0] && fieldShouldReportError(state) &&
-                        <InputError message={state.meta.errors[0].message} />}
+                      {state.meta.errors[0] &&
+                        fieldShouldReportError(state) && (
+                          <InputError message={state.meta.errors[0].message} />
+                        )}
                     </>
                   )}
                 />
-
-
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
@@ -92,14 +134,17 @@ export function SignupForm({
                         value={state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        className={fieldShouldReportError(state) ? 'invalid' : ''}
+                        className={
+                          fieldShouldReportError(state) ? 'invalid' : ''
+                        }
                         placeholder="m@example.com"
                         required
                       />
-                      {state.meta.errors[0] && fieldShouldReportError(state) &&
-                        <InputError message={state.meta.errors[0].message} />}
+                      {state.meta.errors[0] &&
+                        fieldShouldReportError(state) && (
+                          <InputError message={state.meta.errors[0].message} />
+                        )}
                     </>
-
                   )}
                 />
               </div>
@@ -117,19 +162,24 @@ export function SignupForm({
                         value={state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        className={fieldShouldReportError(state) ? 'invalid' : ''}
+                        className={
+                          fieldShouldReportError(state) ? 'invalid' : ''
+                        }
                         required
                       />
-                      {state.meta.errors[0] && fieldShouldReportError(state) &&
-                        <InputError message={state.meta.errors[0].message} />}
+                      {state.meta.errors[0] &&
+                        fieldShouldReportError(state) && (
+                          <InputError message={state.meta.errors[0].message} />
+                        )}
                     </>
                   )}
                 />
-
               </div>
               <div className="grid gap-3">
                 <div className="flex items-center">
-                  <Label htmlFor="passwordConfirmation">Password Confirmation</Label>
+                  <Label htmlFor="passwordConfirmation">
+                    Password Confirmation
+                  </Label>
                 </div>
                 <form.Field
                   name={'passwordConfirmation'}
@@ -141,11 +191,15 @@ export function SignupForm({
                         value={state.value}
                         onBlur={field.handleBlur}
                         onChange={(e) => field.handleChange(e.target.value)}
-                        className={fieldShouldReportError(state) ? 'invalid' : ''}
+                        className={
+                          fieldShouldReportError(state) ? 'invalid' : ''
+                        }
                         required
                       />
-                      {state.meta.errors[0] && fieldShouldReportError(state) &&
-                        <InputError message={state.meta.errors[0].message} />}
+                      {state.meta.errors[0] &&
+                        fieldShouldReportError(state) && (
+                          <InputError message={state.meta.errors[0].message} />
+                        )}
                     </>
                   )}
                 />
@@ -153,7 +207,7 @@ export function SignupForm({
 
               <div className="flex flex-col gap-3">
                 <Button type="submit" className="w-full">
-                  Sign up
+                  {signingUp ? 'Please wait' : 'Sign Up'}
                 </Button>
               </div>
             </div>

@@ -11,16 +11,22 @@ import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
 import * as React from 'react';
 import { useState } from 'react';
-import { Link, useNavigate } from '@tanstack/react-router';
+import { getRouteApi, Link, useNavigate } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod/v4';
 import { InputError } from '@/components/ui/InputError.tsx';
 import { useAuth } from '@/contexts/auth/useAuth.ts';
+import type { AxiosError } from 'axios';
+import type { ErrorResponse } from '@/types';
+import { FormError } from '@/components/FormError.tsx';
+import { FormNotice } from '@/components/FormNotice.tsx';
 
 const LoginFormSchema = z.object({
   email: z.email({ error: 'Not a valid email address' }),
   password: z.string().nonempty({ error: 'Password must not be empty' }),
 });
+
+const route = getRouteApi('/_unauthenticatedLayout/sign-in');
 
 export function LoginForm({
   className,
@@ -28,8 +34,9 @@ export function LoginForm({
 }: React.ComponentProps<'div'>) {
   const { signIn } = useAuth();
   const [signingIn, setSigningIn] = useState(false);
+  const { newSignUp } = route.useSearch();
+  const [error, setError] = useState<string>();
   const navigate = useNavigate();
-
 
   const form = useForm({
     defaultValues: {
@@ -42,19 +49,17 @@ export function LoginForm({
       onSubmit: LoginFormSchema,
     },
     onSubmit: async ({ value }) => {
-      console.log('Signing in');
-      console.log(value);
       setSigningIn(true);
-      await signIn({ email: value.email, password: value.password }).then(
-        (signInSuccessful) => {
+      await signIn({ email: value.email, password: value.password })
+        .then((signInSuccessful) => {
           if (signInSuccessful) {
-            navigate({to: "/"})
+            navigate({ to: '/' });
           }
-        },
-      ).catch(error => {
-        setSigningIn(false)
-        console.log(error);
-      });
+        })
+        .catch((error: AxiosError<ErrorResponse>) => {
+          setSigningIn(false);
+          setError(error.response?.data.message);
+        });
     },
   });
 
@@ -68,6 +73,14 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
+          {error && <FormError message={error} />}
+          {newSignUp === 1 && (
+            <FormNotice
+              message={
+                'Sign Up seccessful. You can now use your new email and password to login.'
+              }
+            />
+          )}
           <form
             onSubmit={(e) => {
               e.preventDefault();

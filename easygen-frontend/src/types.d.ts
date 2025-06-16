@@ -15,3 +15,8 @@ interface UserJwt extends JWTPayload {
   id: string;
   email: string;
 }
+
+interface ErrorResponse {
+  message: string
+  statusCode: number
+}
