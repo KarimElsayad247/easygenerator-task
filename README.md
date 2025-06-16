@@ -27,3 +27,10 @@ https://github.com/user-attachments/assets/d1257f9f-7769-4dbd-8268-f91988f54d07
 
   Why Yaak? Well, Postman, Insomnia, Thunderclient, etc... are all bloated. Yaak feels nice to use and doesn't require accounts.
   I can also sync my collection with git, since it's all Yaml files.
+
+- CSRF Tokens: Would be nice to have, especially if there are more complicated forms. I'm used to getting them for free in Ruby on Rails
+  so I didn't bother to figure out how to manually implement them till now.
+
+- Fine-Grained CORS policies: For now everything is just whitelisted. Ideally I would whitelist just a few specific domains.
+
+- HTTPS: Would need to figure out setting up a certificate with node apps. Didn't have time for that.
