@@ -19,6 +19,9 @@ COPY . .
 
 RUN pnpm run build
 
+# Override .env file
+COPY .env.docker ./.env
+
 EXPOSE 3000
 
 CMD ["node", "dist/main"]
