@@ -15,7 +15,8 @@ For UI, I use [shadcn/ui](https://ui.shadcn.com/) which offers beautiful, ready-
 
 - Better reusable Form components: I would follow [Tanstack Form Composition](https://tanstack.com/form/latest/docs/framework/react/guides/form-composition)
 guide on implementing Custom Form Hooks, allowing for less boilerplate and duplication
-when declaring form fields.
+when declaring form fields. I'm aware that `<SignupForm>` and `<LoginForm>` look terribly ugle.
+Even my IDE complained about the amount of documentation!
 
 - Fix some janky Form validation going on in Login Form, just look at this weird stuff
 
